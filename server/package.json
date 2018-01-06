@@ -1,0 +1,15 @@
+{
+  "name": "crypto-tracker-pwa-server",
+  "version": "1.0.0",
+  "description": "crypto-tracker-pwa-server",
+  "author": "diego-lipinski-de-castro <diegocastroh20@gmail.com>",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.17.1"
+  },
+  "engines": {
+    "node": ">= 4.0.0",
+    "npm": ">= 3.0.0"
+  },
+  "license": "MIT"
+}

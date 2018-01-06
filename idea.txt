@@ -1,0 +1,4 @@
+  - percentage - https://coinmarketcap.com/api/
+  - raw data - https://www.cryptocompare.com/api/
+  - history - https://www.cryptocompare.com/api/
+  - marketshare - https://www.cryptonator.com/api
