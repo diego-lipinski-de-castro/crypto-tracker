@@ -9,8 +9,10 @@ Vue.config.silent = false
 Vue.config.devtools = true
 
 import api from './http'
-
 Vue.prototype.$http = api
+
+let eHub = new Vue()
+Vue.prototype.$ehub = eHub
 
 /* eslint-disable no-new */
 new Vue({

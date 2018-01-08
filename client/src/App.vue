@@ -1,7 +1,11 @@
 <template>
 
-  <div id="app">
-    <router-view></router-view>
+  <div id="app" v-cloak>
+    
+    <transition name='fade' mode='out-in'>
+      <router-view/>
+    </transition>
+
   </div>
   
 </template>
@@ -15,6 +19,6 @@
 </script>
 
 <style lang="stylus">
-  @import url('./assets/style/app')
+  @import url('./assets/style/app.styl')
 </style>
 
