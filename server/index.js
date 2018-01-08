@@ -1,4 +1,17 @@
+const admin = require('firebase-admin')
 const axios = require('axios')
+const schedule = require('node-schedule')
+
+const serviceAccount = require('./key.json')
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://crypto-tracker-dc.firebaseio.com'
+})
+
+const db = admin.database()
+
+const percentage_ref = db.ref('percentage')
 
 const fetchData = async (api_url) => {
 
@@ -9,9 +22,7 @@ const fetchData = async (api_url) => {
     return data
 
   } catch (error) {
-
     return error
-
   }
 
 }
@@ -20,24 +31,30 @@ const getData = async () => {
 
   try {
 
-    const data = await Promise.all([
-      fetchData('https://api.coinmarketcap.com/v1/ticker/?limit=2000')
+    let data = await Promise.all([
+      fetchData('https://api.coinmarketcap.com/v1/ticker/?limit=9999')
     ]).then(res => {
-      return res
+      saveData(res)
     })
     .catch(error => {
-      return error
+      console.log(error)
     })
 
+    return data
+
   } catch(error) {
-
     return error
-
   }
 
 }
 
-console.log(getData())
+const saveData = (data) => {
+  percentage_ref.set(data[0])
+}
+
+schedule.scheduleJob('*/5 * * * *', () => {
+  getData()
+})
 
 /*
   - percentage - https://coinmarketcap.com/api/
@@ -45,34 +62,3 @@ console.log(getData())
   - history - https://www.cryptocompare.com/api/
   - marketshare - https://www.cryptonator.com/api
 */
-
-const icons = [
-  { id: '', name: 'AquariusCoin' },
-  { id: '', name: 'Augur' },
-  { id: '', name: 'Bitcoin' },
-  { id: '', name: 'BitConnect' },
-  { id: '', name: 'BitShares' },
-  { id: '', name: 'Bytecoin' },
-  { id: '', name: 'Dash' },
-  { id: '', name: 'Decred' },
-  { id: '', name: 'EOS' },
-  { id: '', name: 'Ethereum' },
-  { id: '', name: 'Golem' },
-  { id: '', name: 'Iconomi' },
-  { id: '', name: 'IOTA' },
-  { id: '', name: 'LanaCoin' },
-  { id: '', name: 'Litecoin' },
-  { id: '', name: 'Monero' },
-  { id: '', name: 'NEM' },
-  { id: '', name: 'Netko-coin' },
-  { id: '', name: 'NevaCoin' },
-  { id: '', name: 'Ripple' },
-  { id: '', name: 'Siacoin' },
-  { id: '', name: 'Steem' },
-  { id: '', name: 'Stratis' },
-  { id: '', name: 'Suncontract' },
-  { id: '', name: 'TajCoin' },
-  { id: '', name: 'Waves' },
-  { id: '', name: 'Xaurum' },
-  { id: '', name: 'Zcash' }
-]

@@ -13,3 +13,8 @@
   }
 
 </script>
+
+<style lang="stylus">
+  @import url('./assets/style/app')
+</style>
+
