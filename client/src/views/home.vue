@@ -25,7 +25,11 @@
     },
     data() {
       return {
-        menu: []
+        menu: [
+          { label: 'Percentage', link: ''},
+          { label: 'Raw Data', link: ''},
+          { label: 'Marketshare', link: ''}
+        ]
       }
     }
   }

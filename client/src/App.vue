@@ -19,6 +19,6 @@
 </script>
 
 <style lang="stylus">
-  @import url('./assets/style/app.styl')
+  @import './assets/style/app.styl'
 </style>
 
