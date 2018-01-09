@@ -5,9 +5,11 @@
     <nav-menu/>
     <side-menu :menu='menu'/>
 
-    <transition name='slide-right'>
-      <router-view/>
-    </transition>
+    <div class="content">
+      <transition name='slide-right'>
+        <router-view/>
+      </transition>
+    </div>
 
   </div>
 
@@ -26,9 +28,10 @@
     data() {
       return {
         menu: [
-          { label: 'Percentage', link: ''},
-          { label: 'Raw Data', link: ''},
-          { label: 'Marketshare', link: ''}
+          { label: 'History', link: 'history' },
+          { label: 'Marketshare', link: 'marketshare' },
+          { label: 'Percentage', link: 'percentage' },
+          { label: 'Raw', link: 'rawdata' }
         ]
       }
     }

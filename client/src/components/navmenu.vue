@@ -45,6 +45,11 @@
         this.$ehub.$emit('toggleSidemenu')
         this.isSidemenuOpen = !this.isSidemenuOpen
       }
+    },
+    mounted() {
+
+      // this.$router.beforeEach()
+
     }
   }
 
@@ -59,6 +64,7 @@
     right 0
     height 60px
     box-shadow 0 5px 20px -5px rgba(0, 0, 0, 0.1)
+    z-index 2
 
     .nav
       height 100%

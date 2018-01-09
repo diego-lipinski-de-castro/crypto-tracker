@@ -7,7 +7,9 @@
     <div class="sidemenu-inner">
       <ul class='menu-list'>
         <li v-for='(item, index) in menu' :key='index'>
-          {{item}}
+          
+          <router-link :to='item.link'> {{ item.label }} </router-link>
+
         </li>
       </ul>
     </div>
@@ -52,7 +54,6 @@
     left -100%
     top 60px
     bottom 0
-    z-index -1
     transition all 100ms linear
 
     &.sidemenu-open
