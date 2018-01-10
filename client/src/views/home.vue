@@ -7,7 +7,7 @@
 
     <div class="content">
       <transition name='slide-right'>
-        <router-view/>
+        <router-view class='content-inner'/>
       </transition>
     </div>
 
@@ -28,13 +28,28 @@
     data() {
       return {
         menu: [
-          { label: 'History', link: 'history' },
-          { label: 'Marketshare', link: 'marketshare' },
-          { label: 'Percentage', link: 'percentage' },
-          { label: 'Raw', link: 'rawdata' }
+          { label: 'History', link: 'history', icon: 'trending_up' },
+          { label: 'Marketshare', link: 'marketshare', icon: 'track_changes' },
+          { label: 'Percentage', link: 'percentage', icon: 'swap_vert' },
+          { label: 'Raw', link: 'rawdata', icon: 'attach_money' }
         ]
       }
     }
   }
 
 </script>
+
+<style lang="stylus">
+
+  .home-page
+    height 100%
+
+    .content
+      padding-top 60px
+      height 100%
+
+      .content-inner
+        max-height 100%
+        padding 10px
+
+</style>

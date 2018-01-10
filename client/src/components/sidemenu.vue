@@ -6,9 +6,19 @@
 
     <div class="sidemenu-inner">
       <ul class='menu-list'>
-        <li v-for='(item, index) in menu' :key='index'>
+        <li v-for='(item, index) in menu' :key='index' class='menu-list-item'>
           
-          <router-link :to='item.link'> {{ item.label }} </router-link>
+          <router-link :to='item.link' class='menu-list-item-link'>
+
+            <span class="icon material-icons">
+              {{item.icon}}
+            </span>
+
+            <span class="label">
+              {{ item.label }} 
+            </span>
+
+          </router-link>
 
         </li>
       </ul>
@@ -84,4 +94,38 @@
       box-shadow 20px 0 20px -15px rgba(0, 0, 0, 0.1)
       transition left 300ms ease
 
+      .menu-list // ul
+        .menu-list-item // li
+          display flex
+
+          .menu-list-item-link // a-router-link
+            text-decoration none
+            display flex
+            width 100%
+            align-items center
+            padding 20px
+            color #282828
+
+            &.menu-list-item-link-active
+              &:after
+                content ''
+                display block
+                background-color #a24dd1
+                width 10px
+                height 10px
+                border-radius 50%
+                position absolute
+                right 20px
+
+            &:active
+            &:focus
+            &:visited
+              color #282828
+
+            span
+              display block
+
+              &.icon
+                margin-right 20px
+                
 </style>

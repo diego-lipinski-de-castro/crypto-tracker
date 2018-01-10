@@ -15,6 +15,9 @@ function load (path) {
 }
 
 export default new Router({
+  mode: 'hash',
+  linkActiveClass: 'menu-list-item-link-active',
+  scrollBehavior: () => { y: 0 },
   routes: [
     {
       path: '/',

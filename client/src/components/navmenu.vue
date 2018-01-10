@@ -48,7 +48,12 @@
     },
     mounted() {
 
-      // this.$router.beforeEach()
+      this.$router.beforeEach((to, from, next) => {
+        if(this.isSidemenuOpen) {
+          this.toggleSidemenu()
+          next()
+        }
+      })
 
     }
   }
@@ -78,6 +83,7 @@
         .title-slot
           .title
             color white
+            font-weight lighter
 
         // toggle
         .toggle-slot
