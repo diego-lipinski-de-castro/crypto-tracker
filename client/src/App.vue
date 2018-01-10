@@ -1,10 +1,14 @@
 <template>
 
   <div id="app" v-cloak>
+
+    <nav-menu/>
     
-    <transition name='fade' mode='out-in'>
-      <router-view/>
-    </transition>
+    <div class="content">
+      <transition name='fade' mode='out-in'>
+        <router-view class='content-inner'/>
+      </transition>
+    </div>
 
   </div>
   

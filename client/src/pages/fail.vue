@@ -1,7 +1,6 @@
 <template>
   
-  <div class="page-wrapper">
-
+  <div class='page-wrapper'>
   </div>
 
 </template>
@@ -9,7 +8,10 @@
 <script>
     
   export default {
-    name: 'marketshare'
+    name: 'fail'
   }
 
 </script>
+
+<style lang="stylus">
+</style>

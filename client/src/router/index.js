@@ -16,35 +16,17 @@ function load (path) {
 
 export default new Router({
   mode: 'hash',
-  linkActiveClass: 'menu-list-item-link-active',
   scrollBehavior: () => { y: 0 },
   routes: [
     {
       path: '/',
       name: 'home',
-      component: load('views/home'),
-      children: [
-        {
-          path: 'history/',
-          name: 'history',
-          component: load('pages/home-pages/history')
-        },
-        {
-          path: 'marketshare/',
-          name: 'marketshare',
-          component: load('pages/home-pages/marketshare')
-        },
-        {
-          path: 'percentage/',
-          name: 'percentage',
-          component: load('pages/home-pages/percentage')
-        },
-        {
-          path: 'rawdata/',
-          name: 'rawdata',
-          component: load('pages/home-pages/rawdata')
-        }
-      ]
+      component: load('pages/home')
+    },
+    {
+      path: '/coin/:coin',
+      name: 'coin',
+      component: load('pages/coin')
     },
     {
       path: '*',

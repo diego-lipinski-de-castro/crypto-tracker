@@ -11,16 +11,13 @@ import router from './router'
 import api from './http'
 Vue.prototype.$http = api
 
-let eHub = new Vue()
-Vue.prototype.$ehub = eHub
-
-import App from './App'
+import app from './app'
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   name: 'root',
   router,
-  template: '<App/>',
-  components: { App }
+  template: '<app/>',
+  components: { app }
 })
