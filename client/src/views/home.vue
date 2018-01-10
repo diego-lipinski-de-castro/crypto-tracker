@@ -46,7 +46,6 @@
 
     .content
       padding-top 60px
-      height 100%
 
       .content-inner
         max-height 100%

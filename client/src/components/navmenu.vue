@@ -35,6 +35,9 @@
 
   export default {
     name: 'navmenu',
+    created() {
+      this.$ehub.$on('toggleSidemenuOverlay', this.toggleSidemenu)
+    },
     data() {
       return {
         isSidemenuOpen: false

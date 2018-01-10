@@ -2,7 +2,7 @@
   
   <div :class='["sidemenu-wrapper", { "sidemenu-open": isOpen }]'>
 
-    <div class="sidemenu-overlay"></div>
+    <div class="sidemenu-overlay" @click='overlayClose'></div>
 
     <div class="sidemenu-inner">
       <ul class='menu-list'>
@@ -51,6 +51,9 @@
     methods: {
       toggleSidemenu() {
         this.isOpen = !this.isOpen
+      },
+      overlayClose() {
+        this.$ehub.$emit('toggleSidemenuOverlay')
       }
     }
   }
@@ -65,13 +68,14 @@
     top 60px
     bottom 0
     transition all 100ms linear
+    z-index 1
 
     &.sidemenu-open
       left 0
       right 0
 
       .sidemenu-overlay
-        background-color rgba(0, 0, 0, 0.2)
+        background-color rgba(0, 0, 0, 0.4)
 
       .sidemenu-inner
         left 0
@@ -105,6 +109,7 @@
             align-items center
             padding 20px
             color #282828
+            transition box-shadow ease 150ms
 
             &.menu-list-item-link-active
               &:after
@@ -121,6 +126,13 @@
             &:focus
             &:visited
               color #282828
+
+            &:active
+              box-shadow inset 0 0 10px #a24dd1 !important
+
+            &:focus
+              outline none
+              box-shadow inset -5px 0 0 0 #a24dd1
 
             span
               display block
