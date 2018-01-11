@@ -1,12 +1,12 @@
 const admin = require('firebase-admin')
-const functions = require('firebase-functions')
 const axios = require('axios')
 const schedule = require('node-schedule')
 
 const serviceAccount = require('./key.json')
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://crypto-tracker-dc.firebaseio.com'
 })
 
 // admin.initializeApp({
@@ -15,9 +15,9 @@ admin.initializeApp({
 
 // admin.initializeApp(functions.config().firebase)
 
-const db = admin.firestore()
+const db = admin.database()
 
-const coinsRef = db.collection('coins')
+const coins = require('./coins.json')
 
 // schedule.scheduleJob('*/5 * * * *', () => {
 //   getData()
