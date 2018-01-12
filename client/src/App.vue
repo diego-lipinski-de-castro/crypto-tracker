@@ -1,6 +1,6 @@
 <template>
 
-  <div id="app" v-cloak>
+  <div id="app">
 
     <nav-menu/>
     
@@ -16,13 +16,28 @@
 
 <script>
 
+  import { navmenu } from './components/'
+
   export default {
-    name: 'app'
+    name: 'app',
+    components: {
+      'nav-menu': navmenu
+    }
   }
 
 </script>
 
 <style lang="stylus">
+
   @import './assets/style/app.styl'
+
+  .content
+    padding-top 60px
+    max-height 100%
+    
+      .content-inner
+        max-height 100%
+        padding 10px
+
 </style>
 

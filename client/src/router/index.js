@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import fail from './../views/fail'
+import fail from './../pages/fail'
 
 Vue.use(Router)
 

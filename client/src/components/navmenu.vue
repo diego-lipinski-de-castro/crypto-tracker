@@ -42,11 +42,13 @@
       .nav-inner
         display flex
         height 100%
+        width 90%
+        margin 0 auto
         align-items center
 
         .title-slot
           .title
-            color white
-            font-weight lighter
+            color #fbf9fc
+            font-family 'Montserrat', cursive
 
 </style>
