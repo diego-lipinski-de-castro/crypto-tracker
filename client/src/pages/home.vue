@@ -4,20 +4,23 @@
 
     <ul class="coins-list">
 
-      <li v-for='coin in coins' :key='coin' class='coin-card'>
+      <li v-for='(coin, index) in coins' :key='index' class='coin-card'>
 
-        <div class="c-img-wrap">
+        <div class="coin-wrap">
+          <div class="c-img-wrap">
           <img
-            class='c-img'
-            :src="getImagePath(coin)" 
-            :alt="coin" 
-            :width='`${imgSize}px`' 
-            :height='`${imgSize}px`'>
-        </div>        
+              class='c-img'
+              :src="getImagePath(coin.id)" 
+              :alt="coin" 
+              :width='`${imgSize}px`' 
+              :height='`${imgSize}px`'>
+          </div>        
 
-        <h3 class='c-title'> {{coin}} </h3>
+          <h3 class='c-title'> {{coin.id}} </h3>
+          <h5 class='c-subs' v-if='coin.name'> {{coin.name}} </h5>
+        </div> 
 
-        <router-link class='c-button-link' :to='`coin/${coin}`'> Overview </router-link>
+        <router-link class='c-button-link' :to='`coin/${coin.id}`'> Overview </router-link>
 
       </li>
 
@@ -33,7 +36,7 @@
     name: 'home',
     data() {
       return {
-        coins: require('./../assets/coins') || [],
+        coins: require('./../assets/coins.json') || [],
         imgSize: '64'
       }
     },
@@ -49,34 +52,52 @@
 
 <style lang="stylus">
 
-  .page-wrapper
-    padding 10px
-
   .coins-list
     list-style none
     display flex
     flex-wrap wrap
 
-    .coin-card
-      outline 4px solid lighten(#a24dd1, 15)
-      border 2px solid #a24dd1
+    .coin-card      
       margin 10px
-      background-color #fbf9fc
+      border-radius 10px
+      // height 210px
       width calc(50% - 20px)
+      box-shadow 0 0 4px 1px rgba(0, 0, 0, 0.1)
 
-      .c-img-wrap
-        display flex
-        justify-content center
-        padding 20px 0 15px 0
+      @media (min-width 540px)
+        width calc(33.33333% - 20px)
 
-      .c-title
-        color #282828
-        text-transform uppercase
-        text-align center
-        padding-bottom 15px
-        // font-size 1rem
-        font-family 'Joti One'
-        font-weight bold
+      @media (min-width 698px)
+        width calc(25% - 20px)
+
+      @media (min-width 990px)
+        width calc(20% - 20px)
+
+      .coin-wrap
+        height calc(100% - 55px)
+        background-color #fbf9fc
+        border 2px inset #a24dd1
+        border-top-left-radius 10px
+        border-top-right-radius 10px
+
+        .c-img-wrap
+          display flex
+          justify-content center
+          padding 20px 0 15px 0
+
+        .c-title
+          color #282828
+          text-transform uppercase
+          text-align center
+          font-size 1rem
+          font-family 'Joti One'
+          font-weight bold
+
+        .c-subs
+          padding 5px 0
+          text-align center
+          font-weight lighter
+          color lighten(#282828, 40)
 
       .c-button-link
         background-color #a24dd1
@@ -84,10 +105,12 @@
         text-decoration none
         display block
         text-align center
-        padding 12px 5px
+        padding 14px 7px
         font-size 1.15rem
         font-family 'Roboto', sans-serif
         font-weight 900
+        border-bottom-left-radius 10px
+        border-bottom-right-radius 10px
 
         &:active
         &:focus
