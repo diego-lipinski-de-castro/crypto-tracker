@@ -6,7 +6,8 @@
       <div class='nav-inner'>
 
         <div class='title-slot'>
-          <h1 class='title'> Crypto Tracker </h1>
+          <h1 class='title' v-if='atRoot'> Crypto Tracker </h1>
+          <button @click='pushBack' class="back-button" v-else> <i class="material-icons">arrow_back</i> </button>
         </div>
 
       </div>
@@ -19,7 +20,17 @@
 <script>
 
   export default {
-    name: 'navmenu'
+    name: 'navmenu',
+    computed: {
+      atRoot() {
+        return this.$route.path === '/'
+      }
+    },
+    methods: {
+      pushBack() {
+        this.$router.go(-1)
+      }
+    }
   }
 
 </script>
@@ -38,6 +49,7 @@
     .nav
       height 100%
       background-color #a24dd1
+      position relative
 
       .nav-inner
         display flex
@@ -47,8 +59,27 @@
         align-items center
 
         .title-slot
+          display flex
+
           .title
             color #fbf9fc
             font-family 'Montserrat', cursive
+
+          .back-button
+            border 0
+            height 60px
+            width 60px
+            background-color #a24dd1
+            color white
+            display flex
+            justify-content center
+            align-items center
+            outline 0
+            position absolute
+            top 0
+            left 0
+
+            i
+              font-size 1.8rem
 
 </style>
