@@ -31,6 +31,14 @@
 
   @import './assets/style/app.styl'
 
+  .fade-enter-active
+  .fade-leave-active
+    transition opacity 300ms
+
+  .fade-enter
+  .fade-leave-to
+    opacity 0
+
   .content
     padding-top 60px
     max-height 100%

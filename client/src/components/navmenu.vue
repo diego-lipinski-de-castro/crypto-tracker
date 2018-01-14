@@ -6,8 +6,10 @@
       <div class='nav-inner'>
 
         <div class='title-slot'>
-          <h1 class='title' v-if='atRoot'> Crypto Tracker </h1>
-          <button @click='pushBack' class="back-button" v-else> <i class="material-icons">arrow_back</i> </button>
+          <transition name='bounce' mode='out-in'>
+            <h1 class='title' v-if='atRoot'> Crypto Tracker </h1>
+            <button @click='pushBack' class="back-button" v-else> <i class="material-icons">arrow_back</i> </button>
+          </transition>
         </div>
 
       </div>
@@ -36,6 +38,20 @@
 </script>
 
 <style lang="stylus">
+
+  .bounce-enter-active
+    animation bounce-in 300ms ease-in-out
+
+  .bounce-leave-active
+    animation bounce-in 300ms ease-in-out reverse
+
+  @keyframes bounce-in
+    0%
+      transform scale(0)
+    50%
+      transform scale(1.1)
+    100%
+      transform scale(1)
 
   .nav-wrapper
     position fixed
@@ -69,7 +85,8 @@
             border 0
             height 60px
             width 60px
-            background-color #a24dd1
+            // background-color #a24dd1
+            background-color transparent
             color white
             display flex
             justify-content center

@@ -54,7 +54,7 @@
 
   .coins-list
     list-style none
-    display flex
+    display inline-flex
     flex-wrap wrap
 
     .coin-card      
