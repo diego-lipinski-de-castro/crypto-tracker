@@ -26,7 +26,9 @@ const refs = new Map()
 
 coins.map(coin => {
   refs.set(coin, db.ref(coin))
-})
+})  
+
+const supportedCurr = ['usd', 'brl']
 
 // 
 
@@ -37,23 +39,31 @@ getData = async (api_url, params) => {
     return await axios.get(api_url, {params:params})
 
   } catch(error) {
-    console.log(error)
+    // console.log(error)
   }
 
 }
 
 // 
 
-saveData = (data, key, convert, api_name) => {
+filterData = (data, key) => {
 
-  const result = data.filter(coin => coins.includes(coin[key].toLowerCase()))
+  const result = data.filter(item => coins.includes(item[key].toLowerCase()))
 
-  result.map(coin => {
+  return result
+
+}
+
+// 
+
+saveData = (data, key, currency, api_name) => {
+
+  data.map(coin => {
 
     const coinId = coin[key].toLowerCase()
     const coinRef = refs.get(coinId)
 
-    coinRef.child(convert).child(api_name).set(coin)
+    coinRef.child(currency).child(api_name).set(coin)
 
   })
 
@@ -63,41 +73,76 @@ saveData = (data, key, convert, api_name) => {
 
 coinmarketcap = () => {
 
-  const coinmarketcap_api = [
-    { url: 'https://api.coinmarketcap.com/v1/ticker/', name: 'coinmarketcap', key: 'symbol', convert: 'USD'},
-    { url: 'https://api.coinmarketcap.com/v1/ticker/', name: 'coinmarketcap', key: 'symbol', convert: 'BRL'}
-  ]
+  supportedCurr.map(curr => {
 
-  coinmarketcap_api.map(point => {
-
-    getData(point.url, {
+    getData('https://api.coinmarketcap.com/v1/ticker/', {
       limit: 9999,
-      convert: point.convert
+      convert: curr
     })
     .then(res => {
-      
+
       res = res.data
 
-      saveData(data, point.key, point.convert, point.name)
+      res = filterData(res, 'symbol')
+      
+      saveData(res, 'symbol', curr, 'coinmarketcap')
 
     })
     .catch(error => {
       console.log(error)
     })
-
+ 
   })
 
 }
 
 cryptonator = () => {
 
-  
+  getData('https://www.cryptonator.com/api/currencies')
+  .then(res => {
+    
+    let coinList = res.data.rows
+
+    coinList = filterData(coinList, 'code')
+
+    supportedCurr.map(curr => {
+
+      let currData = []
+
+      currData.push(coinList.map(coin => {
+
+        const coinId = coin['code'].toLowerCase()
+
+        return getData(`https://api.cryptonator.com/api/full/${coinId}-${curr}`, {})
+        .then(res => {
+          return res.data.ticker
+        })
+        .catch(error => {
+          // console.log(error)
+          return null
+        })
+
+      }))
+
+      // saveData(currData, 'base', curr, 'cryptonator')
+
+      console.log(currData)
+
+    })
+    // end mapping
+
+    console.log('done')
+
+  })
+  .catch(error => {
+    console.log(error)
+  })
+
+  // console.log(coinList)
 
 }
 
-// const end_points_cryptonator = coins.map(coin => {
-//   return `https://api.cryptonator.com/api/full/${coin}-${market_coin}`
-// })
+cryptonator()
 
 // const end_points = [
 //   'https://www.cryptocompare.com/api/'
