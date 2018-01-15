@@ -4,6 +4,8 @@ const schedule = require('node-schedule')
 
 const serviceAccount = require('./key.json')
 
+// 
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: 'https://crypto-tracker-dc.firebaseio.com'
@@ -19,19 +21,20 @@ const db = admin.database()
 
 const coins = require('./coins.json')
 
+// references
 const refs = new Map()
 
 coins.map(coin => {
   refs.set(coin, db.ref(coin))
 })
 
-const coinmarketcap_end_point = 'https://api.coinmarketcap.com/v1/ticker/?limit=10'
+// 
 
-getData = async (api_url) => {
+getData = async (api_url, params) => {
 
   try {
 
-    return await axios.get(api_url)
+    return await axios.get(api_url, {params:params})
 
   } catch(error) {
     console.log(error)
@@ -39,31 +42,61 @@ getData = async (api_url) => {
 
 }
 
-filterData = (data) => {
+// 
 
-  let result = data.filter(coin => coins.includes(coin.symbol.toLowerCase()))
+saveData = (data, key, convert, api_name) => {
 
-  return result
+  const result = data.filter(coin => coins.includes(coin[key].toLowerCase()))
 
-}
+  result.map(coin => {
 
-saveData = (api_name, data) => {
-
-  data.map(coin => {
-
-    const coinId = coin.symbol.toLowerCase()
+    const coinId = coin[key].toLowerCase()
     const coinRef = refs.get(coinId)
 
-    coinRef.child(api_name).set(coin)
+    coinRef.child(convert).child(api_name).set(coin)
 
   })
 
-  console.log('done')
+}
+
+// 
+
+coinmarketcap = () => {
+
+  const coinmarketcap_api = [
+    { url: 'https://api.coinmarketcap.com/v1/ticker/', name: 'coinmarketcap', key: 'symbol', convert: 'USD'},
+    { url: 'https://api.coinmarketcap.com/v1/ticker/', name: 'coinmarketcap', key: 'symbol', convert: 'BRL'}
+  ]
+
+  coinmarketcap_api.map(point => {
+
+    getData(point.url, {
+      limit: 9999,
+      convert: point.convert
+    })
+    .then(res => {
+      
+      res = res.data
+
+      saveData(data, point.key, point.convert, point.name)
+
+    })
+    .catch(error => {
+      console.log(error)
+    })
+
+  })
+
+}
+
+cryptonator = () => {
+
+  
 
 }
 
 // const end_points_cryptonator = coins.map(coin => {
-//   return `https://api.cryptonator.com/api/full/${coin}-usd`
+//   return `https://api.cryptonator.com/api/full/${coin}-${market_coin}`
 // })
 
 // const end_points = [
@@ -73,21 +106,3 @@ saveData = (api_name, data) => {
 // schedule.scheduleJob('*/5 * * * *', () => {
 //   getData()
 // })
-
-coinmarketcap = () => {
-
-  getData(coinmarketcap_end_point)
-    .then(res => {
-
-      res = res.data
-
-      saveData('coinmarketcap', filterData(res))
-
-    })
-    .catch(error => {
-      console.log(error)
-    })
-
-}
-
-coinmarketcap()
