@@ -96,7 +96,7 @@ coinmarketcap = () => {
 
 }
 
-cryptonator = () => {
+cryptonator = async () => {
 
   getData('https://www.cryptonator.com/api/currencies')
   .then(res => {
@@ -107,26 +107,28 @@ cryptonator = () => {
 
     supportedCurr.map(curr => {
 
-      let currData = []
+      try {
 
-      currData.push(coinList.map(coin => {
+        const currData = await Promise.all(
+          //   coinList.map(coin => {
 
-        const coinId = coin['code'].toLowerCase()
+          //   const coinId = coin['code'].toLowerCase()
+    
+          //   getData(`https://api.cryptonator.com/api/full/${coinId}-${curr}`, {})
+          //   .then(res => {
+          //     return res.data.ticker
+          //   })
+    
+          // })
+        )
+        
+        console.log(currData)
 
-        return getData(`https://api.cryptonator.com/api/full/${coinId}-${curr}`, {})
-        .then(res => {
-          return res.data.ticker
-        })
-        .catch(error => {
-          // console.log(error)
-          return null
-        })
-
-      }))
+      } catch (error) {
+        console.log(error)
+      }
 
       // saveData(currData, 'base', curr, 'cryptonator')
-
-      console.log(currData)
 
     })
     // end mapping
