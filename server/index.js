@@ -21,12 +21,11 @@ const db = admin.database()
 
 const coins = require('./coins.json')
 
-// references
 const refs = new Map()
 
 coins.map(coin => {
   refs.set(coin, db.ref(coin))
-})  
+})
 
 const currencies = ['usd', 'brl']
 
@@ -37,7 +36,7 @@ const work = async () => {
   try {
 
     await Promise.all[
-      // coinmarketcap()
+      coinmarketcap(),
       cryptonator()
     ]
 
@@ -56,10 +55,7 @@ coinmarketcap = async () => {
       await Promise.all([
 
         currencies.map(currency => {
-          axios('https://api.coinmarketcap.com/v1/ticker/', {
-            limit: 10, 
-            convert: currency
-          })
+          axios(`https://api.coinmarketcap.com/v1/ticker/?limit=9999&convert=${currency}`)
           .then(res => {
 
             res = res.data
@@ -76,16 +72,18 @@ coinmarketcap = async () => {
             })
 
           })
-          .catch(error => console.log(error))
+          .catch(error => {
+            // console.log(error)
+          })
         })
 
       ])
 
     } catch(error) {
-      console.log(error)
+      // console.log(error)
     }
 
-    console.log('done')
+    console.log('done - coinmarketcap')
 
 }
 
@@ -106,7 +104,7 @@ cryptonator = async () => {
       coinList.map(coin => {
 
         const coinId = coin['code'].toLowerCase()
-        requestList.push({url: `https://api.cryptonator.com/api/full/${coinId}-${currency}`, currency: currency, id: coinId})
+        requestList.push({url: `https://api.cryptonator.com/api/full/${coinId}-${currency}`, currency: currency, coinId: coinId})
 
       })
 
@@ -121,9 +119,15 @@ cryptonator = async () => {
 
           res = res.data
 
-          res.map(coin => {
-            
-          })
+          delete res.success
+          delete res.error
+
+          // const coinId = coin['base'].toLowerCase() or // is it safer? Uhm, idk, m4ybe
+          const coinRef = refs.get(req.coinId)
+
+          // req.currency could be res.ticker.target // is it safer? Uhm, idk, m4ybe, using the req consts just to make things pattern :)
+
+          coinRef.child(req.currency).child('cryptonator').set(res)
 
         })
         .catch(error => {
@@ -133,10 +137,15 @@ cryptonator = async () => {
       })
 
     ])
+    .catch(error => {
+      // console.log(error)
+    })
 
   } catch(error) {
-
+    // console.log(error)
   }
+
+  console.log('done - cryptonator')
   
 }
 
@@ -148,4 +157,18 @@ cryptonator = async () => {
 //   getData()
 // })
 
+// 
+
+// work
+
 work()
+
+// 
+
+// TODO 
+
+/*
+
+ cryptonator limits
+
+*/
