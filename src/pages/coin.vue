@@ -4,8 +4,13 @@
      
     <template v-if='noData'>
 
-      <h3 class='no-data-text'> This coin has no data yet. </h3>
-      <button class="no-data-btn" @click='pushBack'> Go back </button>
+      <div class='no-data-wrapper'>
+
+        <h3 class='no-data-text'> This coin has no data yet. </h3>
+        <!-- <button class='no-data-btn' @click='pushBack'> Go back </button> -->
+        <router-link class='no-data-btn' to='/'> Go back </router-link>
+
+      </div>
 
     </template>
 
@@ -42,9 +47,7 @@
 
       fetchCoinData(coinId) {
 
-        this.loading = true
-
-        
+        // this.loading = true
 
       },
       
@@ -62,4 +65,33 @@
 </script>
 
 <style lang="stylus">
+
+  .no-data-wrapper
+    display flex
+    height 100%
+    flex-direction column
+    align-items center
+    justify-content center
+
+    .no-data-text
+      text-align center
+      color #282828
+      // padding 20px
+      // margin-bottom 10px
+
+    .no-data-btn
+      background-color #a24dd1
+      color #fbf9fc
+      font-size 1rem
+      text-transform uppercase
+      margin 10px
+      line-height 1
+      padding 15px
+      font-weight bold !important
+      width 50%
+      text-align center
+      border none
+      box-shadow inset -10px 0 0 0 rebeccapurple
+      text-decoration none
+
 </style>

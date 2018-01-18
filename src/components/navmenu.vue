@@ -5,12 +5,10 @@
 
       <div class='nav-inner'>
 
-        <div class='title-slot'>
-          <transition name='bounce' mode='out-in'>
-            <h1 class='title' v-if='atRoot'> Crypto Tracker </h1>
-            <button @click='pushBack' class="back-button" v-else> <i class="material-icons">arrow_back</i> </button>
-          </transition>
-        </div>
+        <button @click='pushBack' :class='["back-button", { "no-root": !atRoot }]'> <i class="material-icons">arrow_back</i> </button>
+
+        <h1 v-if='atRoot' class='title'> Crypto Tracker </h1>
+        <h1 v-else class='title'> {{$router.currentRoute.params.coin}} </h1>
 
       </div>
 
@@ -39,20 +37,6 @@
 
 <style lang="stylus">
 
-  .bounce-enter-active
-    animation bounce-in 300ms ease-in-out
-
-  .bounce-leave-active
-    animation bounce-in 300ms ease-in-out reverse
-
-  @keyframes bounce-in
-    0%
-      transform scale(0)
-    50%
-      transform scale(1.1)
-    100%
-      transform scale(1)
-
   .nav-wrapper
     position fixed
     top 0
@@ -74,29 +58,34 @@
         margin 0 auto
         align-items center
 
-        .title-slot
+        .title
+          color #fbf9fc
+          font-family 'Montserrat', cursive
+          transform translateX(-30px)
+          transition transform 250ms ease-in-out
+
+          &.no-root
+            transform translateX(0)
+
+        .back-button
+          border 0
+          height 60px
+          width 60px
+          // background-color #a24dd1
+          background-color transparent
+          color white
           display flex
+          justify-content center
+          align-items center
+          outline 0
+          margin-left -30px
+          transform translateX(-60px)
+          transition transform 250ms ease-in-out
 
-          .title
-            color #fbf9fc
-            font-family 'Montserrat', cursive
+          &.no-root
+            transform translateX(0)
 
-          .back-button
-            border 0
-            height 60px
-            width 60px
-            // background-color #a24dd1
-            background-color transparent
-            color white
-            display flex
-            justify-content center
-            align-items center
-            outline 0
-            position absolute
-            top 0
-            left 0
-
-            i
-              font-size 1.8rem
+          i
+            font-size 1.8rem
 
 </style>

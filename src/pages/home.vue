@@ -42,7 +42,7 @@
     },
     methods: {
       getImagePath(path) {
-        const img = require(`./../assets/icons/icon/${path}.svg`)
+        const img = require(`./../assets/icons/${path}.svg`)
         return img
       }
     }

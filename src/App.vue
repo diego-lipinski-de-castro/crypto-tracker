@@ -40,12 +40,12 @@
     opacity 0
 
   .content
+    height 100%
     padding-top 60px
-    max-height 100%
     
-      .content-inner
-        max-height 100%
-        padding 10px
+    .content-inner
+      max-height 100%
+      padding 10px
 
 </style>
 
