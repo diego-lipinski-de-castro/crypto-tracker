@@ -1,0 +1,3 @@
+https://coinmarketcap.com/api/
+https://www.cryptonator.com/api
+https://www.cryptocompare.com/api/

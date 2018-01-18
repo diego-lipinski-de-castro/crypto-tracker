@@ -12,7 +12,6 @@
   "dependencies": {
     "axios": "^0.17.1",
     "vue": "^2.5.2",
-    "vue-longpress": "^1.0.1",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
@@ -62,8 +61,8 @@
   },
   "browserslist": [
     "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
+    "last 4 versions",
+    "not ie <= 11"
   ],
   "license": "MIT"
 }

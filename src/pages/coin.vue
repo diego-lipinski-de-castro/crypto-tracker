@@ -25,9 +25,12 @@
     name: 'coin',
     data() {
       return {
-        loading: false,
         coinId: null,
-        coinData: null
+        coinData: null,
+        loading: false,
+        params: {
+
+        }
       }
     },
     computed: {
@@ -41,17 +44,7 @@
 
         this.loading = true
 
-        this.$http.get(`${coinId}.json`)
-        .then(res => {
-          console.log(res)
-          this.coinData = res.data
-        })
-        .catch(error => {
-          console.log(error)
-        })
-        .then(() => {
-          this.loading = false
-        })
+        
 
       },
       

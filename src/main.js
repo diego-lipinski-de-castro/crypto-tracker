@@ -8,8 +8,8 @@ Vue.config.devtools = true
 
 import router from './router'
 
-import api from './http'
-Vue.prototype.$http = api
+import axios from 'axios'
+Vue.prototype.$http = axios
 
 import app from './app'
 
