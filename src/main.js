@@ -6,6 +6,10 @@ Vue.config.productionTip = true
 Vue.config.silent = false
 Vue.config.devtools = true
 
+import { firebase, firebaseApp } from './firebase'
+Vue.prototype.$firebase = firebase
+Vue.prototype.$firebaseApp = firebaseApp
+
 import router from './router'
 import store from './store'
 

@@ -1,4 +1,8 @@
 <template>
+
+  <div class="sidemenu-wrapper">
+    
+  </div>
   
 </template>
 

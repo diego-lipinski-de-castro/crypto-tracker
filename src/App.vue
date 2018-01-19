@@ -23,6 +23,7 @@
 <script>
 
   import { navmenu, sidemenu, loader, offline } from './components/'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'app',
@@ -31,6 +32,18 @@
       'side-menu': sidemenu,
       'loader': loader,
       'offline': offline
+    },
+    computed: {
+      ...mapGetters([
+        'getUser'
+      ])
+    },
+    mounted() {
+
+      if(this.getUser === null) {
+        this.$router.push('/sigin')
+      }
+
     }
   }
 

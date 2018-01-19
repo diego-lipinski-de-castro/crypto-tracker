@@ -1,30 +1,32 @@
 <template>
   
   <div class='nav-wrapper'>
-    <nav class='nav'>      
+    <nav class='nav'>
 
       <div class='nav-inner'>
 
-        <transition name='switch-icon' mode='out-in'>
+        <template v-if='!isSigning'>
+          <transition name='switch-icon' mode='out-in'>
 
-          <button class='nav-inner-icon-button' key='icon-menu' v-if='isRootPath' @click='toggleSidemenu'>
-            <i class='material-icons'>menu</i>
-          </button>
+            <button class='nav-inner-icon-button' key='icon-menu' v-if='isRootPath' @click='toggleSidemenu'>
+              <i class='material-icons'>menu</i>
+            </button>
 
-          <button class='nav-inner-icon-button' key='icon-back' v-else @click='goHome'>
-            <i class='material-icons'>arrow_back</i>
-          </button>
+            <button class='nav-inner-icon-button' key='icon-back' v-else @click='goHome'>
+              <i class='material-icons'>arrow_back</i>
+            </button>
 
-        </transition>
+          </transition>
+        </template>
 
         <div class="nav-content">
           <transition name='swipe-title' mode='out-in'>
-            <h1 key='static-title' class="title" v-if='isRootPath'> Crypto Tracker </h1>
+            <h1 key='static-title' class="title" v-if='isRootPath || isSigning'> Crypto Tracker </h1>
             <h1 key='dynamic-title' class='title upper' v-else> {{titleContent}} </h1>
           </transition>
         </div>
 
-        <button :class='["nav-inner-icon-button search-button", { "hide-search-button": !isRootPath }]'>
+        <button :class='["nav-inner-icon-button search-button", { "hide-search-button": !isRootPath || isSigning }]'>
           <i class='material-icons'>search</i>
         </button>
 
@@ -46,7 +48,10 @@
         'getIsSidemenuOpen'
       ]),
       isRootPath() {
-        return this.$route.path == '/'
+        return this.$route.path === '/'
+      },
+      isSigning() {
+        return this.$route.path === '/sigin'
       },
       titleContent() {
         return this.$route.params.coin

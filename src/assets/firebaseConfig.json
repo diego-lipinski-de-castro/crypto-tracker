@@ -1,0 +1,8 @@
+{
+  "apiKey": "AIzaSyAnru53heCrCk6hNmzXIIDbDCpfgrs7KaI",
+  "authDomain": "crypto-tracker-app.firebaseapp.com",
+  "databaseURL": "https://crypto-tracker-app.firebaseio.com",
+  "projectId": "crypto-tracker-app",
+  "storageBucket": "crypto-tracker-app.appspot.com",
+  "messagingSenderId": "731297773819"
+}

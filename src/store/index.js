@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import * as firebase from 'firebase'
+
 Vue.use(Vuex)
 
 const SET_ONLINE = 'SET_ONLINE'
@@ -14,10 +16,10 @@ export default new Vuex.Store({
     isLoading: false,
     isSidemenuOpen: false,
     coins: require('./../assets/coins') || [],
-    user: null
+    user: firebase.auth().currentUser
   },
   mutations: {
-    [TOGGLE_LOAD] (state, isOnline) {
+    [SET_ONLINE] (state, isOnline) {
       state.isOnline = isOnline
     },
     [TOGGLE_LOAD] (state) {
@@ -31,9 +33,42 @@ export default new Vuex.Store({
     }
   },
   actions: {
+
+    setIsOnline({ commit }) {
+      
+      const status = window.navigator.onLine
+
+      if(typeof status === 'undefined') {
+        commit(SET_ONLINE, true)
+      } else {
+        commit(SET_ONLINE, status)
+      }
+
+    },
+
     toggleSidemenu({ commit }) {
       commit(TOGGLE_SIDEMENU)
+    },
+
+    async login({ commit }, provider) {
+
+      try {
+
+        const user = await firebase.auth().signInWithPopup(provider)
+
+        commit(SET_USER, user)
+
+        return true
+
+      } catch(error) {
+        
+        console.log(error)
+        return false
+
+      }
+
     }
+
   },
   getters: {
     getIsOnline: state => state.isOnline,
