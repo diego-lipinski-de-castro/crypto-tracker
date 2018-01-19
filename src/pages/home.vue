@@ -2,9 +2,9 @@
   
   <div class='page-wrapper'>
 
-    <ul class="coins-list">
+    <ul class="coins-list" v-if='hasCoins'>
 
-      <li v-for='(coin, index) in coins' :key='index' class='coin-card'>
+      <li v-for='(coin, index) in getCoins' :key='index' class='coin-card'>
 
         <div class="coin-wrap">
           <div class="c-img-wrap">
@@ -31,13 +31,22 @@
 </template>
 
 <script>
+
+  import { mapGetters } from 'vuex'
     
   export default {
     name: 'home',
     data() {
       return {
-        coins: require('./../assets/coins.json') || [],
         imgSize: '64'
+      }
+    },
+    computed: {
+      ...mapGetters([
+        'getCoins'
+      ]),
+      hasCoins() {
+        return this.getCoins.length > 0
       }
     },
     methods: {

@@ -7,8 +7,8 @@
       <div class='no-data-wrapper'>
 
         <h3 class='no-data-text'> This coin has no data yet. </h3>
-        <!-- <button class='no-data-btn' @click='pushBack'> Go back </button> -->
-        <router-link class='no-data-btn' to='/'> Go back </router-link>
+        <button class='no-data-btn' @click='pushBack'> Go back </button>
+        <router-link class='no-data-btn' to='/'> Go home </router-link>
 
       </div>
 
@@ -25,6 +25,8 @@
 </template>
 
 <script>
+
+  import { mapGetters } from 'vuex'
     
   export default {
     name: 'coin',
@@ -32,23 +34,20 @@
       return {
         coinId: null,
         coinData: null,
-        loading: false,
-        params: {
-
-        }
+        params: {}
       }
     },
     computed: {
+      ...mapGetters([
+        'getIsLoading'
+      ]),
       noData() {
-        return this.coinData === null && this.loading === false
+        return this.coinData === null && this.getIsLoading === false
       }
     },
     methods: {
 
       fetchCoinData(coinId) {
-
-        // this.loading = true
-
       },
       
       pushBack() {
@@ -90,6 +89,7 @@
       font-weight bold !important
       width 50%
       text-align center
+      font-family 'Roboto', sans-serif
       border none
       box-shadow inset -10px 0 0 0 rebeccapurple
       text-decoration none

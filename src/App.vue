@@ -2,13 +2,19 @@
 
   <div id="app">
 
+    <loader/>
+
     <nav-menu/>
+
+    <side-menu/>
     
-    <div class="content">
+    <div class="router-content">
       <transition name='fade' mode='out-in'>
         <router-view class='content-inner'/>
       </transition>
     </div>
+
+    <offline/>
 
   </div>
   
@@ -16,12 +22,15 @@
 
 <script>
 
-  import { navmenu } from './components/'
+  import { navmenu, sidemenu, loader, offline } from './components/'
 
   export default {
     name: 'app',
     components: {
-      'nav-menu': navmenu
+      'nav-menu': navmenu,
+      'side-menu': sidemenu,
+      'loader': loader,
+      'offline': offline
     }
   }
 
@@ -39,7 +48,7 @@
   .fade-leave-to
     opacity 0
 
-  .content
+  .router-content
     height 100%
     padding-top 60px
     

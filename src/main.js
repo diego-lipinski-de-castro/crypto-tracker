@@ -7,17 +7,22 @@ Vue.config.silent = false
 Vue.config.devtools = true
 
 import router from './router'
+import store from './store'
+
+import { sync } from 'vuex-router-sync'
+sync(store, router)
 
 import axios from 'axios'
 Vue.prototype.$http = axios
 
-import app from './app'
+import app from './App'
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   name: 'root',
   router,
+  store,
   template: '<app/>',
   components: { app }
 })

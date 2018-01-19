@@ -5,10 +5,28 @@
 
       <div class='nav-inner'>
 
-        <button @click='pushBack' :class='["back-button", { "no-root": !atRoot }]'> <i class="material-icons">arrow_back</i> </button>
+        <transition name='switch-icon' mode='out-in'>
 
-        <h1 v-if='atRoot' class='title'> Crypto Tracker </h1>
-        <h1 v-else class='title'> {{$router.currentRoute.params.coin}} </h1>
+          <button class='nav-inner-icon-button' key='icon-menu' v-if='isRootPath' @click='toggleSidemenu'>
+            <i class='material-icons'>menu</i>
+          </button>
+
+          <button class='nav-inner-icon-button' key='icon-back' v-else @click='goHome'>
+            <i class='material-icons'>arrow_back</i>
+          </button>
+
+        </transition>
+
+        <div class="nav-content">
+          <transition name='swipe-title' mode='out-in'>
+            <h1 key='static-title' class="title" v-if='isRootPath'> Crypto Tracker </h1>
+            <h1 key='dynamic-title' class='title upper' v-else> {{titleContent}} </h1>
+          </transition>
+        </div>
+
+        <button :class='["nav-inner-icon-button search-button", { "hide-search-button": !isRootPath }]'>
+          <i class='material-icons'>search</i>
+        </button>
 
       </div>
 
@@ -19,16 +37,27 @@
 
 <script>
 
+  import { mapGetters, mapActions } from 'vuex'
+
   export default {
     name: 'navmenu',
     computed: {
-      atRoot() {
-        return this.$route.path === '/'
+      ...mapGetters([
+        'getIsSidemenuOpen'
+      ]),
+      isRootPath() {
+        return this.$route.path == '/'
+      },
+      titleContent() {
+        return this.$route.params.coin
       }
     },
     methods: {
-      pushBack() {
-        this.$router.go(-1)
+      ...mapActions([
+        'toggleSidemenu'
+      ]),
+      goHome() {
+        this.$router.push('/')
       }
     }
   }
@@ -36,6 +65,34 @@
 </script>
 
 <style lang="stylus">
+
+  .switch-icon-enter-active
+    animation switch-icon 250ms ease-in-out
+
+  .switch-icon-leave-active
+    animation switch-icon 250ms ease-in-out reverse
+
+  @keyframes switch-icon
+    0%
+      transform scale(0)
+
+    50%
+      transform scale(1.5)
+
+    100%
+      transform scale(1)
+
+  .swipe-title-leave-active
+  .swipe-title-enter-active
+    transition transform 300ms linear, opacity 150ms linear
+
+  .swipe-title-enter
+    opacity 1
+    transform translate(30px, 0)
+
+  .swipe-title-leave-to
+    opacity 0
+    transform translate(30px, 0)
 
   .nav-wrapper
     position fixed
@@ -54,38 +111,40 @@
       .nav-inner
         display flex
         height 100%
-        width 90%
-        margin 0 auto
         align-items center
+        justify-content space-between
 
-        .title
-          color #fbf9fc
-          font-family 'Montserrat', cursive
-          transform translateX(-30px)
-          transition transform 250ms ease-in-out
-
-          &.no-root
-            transform translateX(0)
-
-        .back-button
-          border 0
-          height 60px
-          width 60px
-          // background-color #a24dd1
-          background-color transparent
-          color white
+        .nav-content
+          height 100%
+          width calc(100% - 120px)
+          margin 0 auto
           display flex
-          justify-content center
           align-items center
-          outline 0
-          margin-left -30px
-          transform translateX(-60px)
-          transition transform 250ms ease-in-out
 
-          &.no-root
-            transform translateX(0)
+          .title
+            color #fbf9fc
+            font-family 'Montserrat', sans-serif
 
-          i
-            font-size 1.8rem
+            &.upper
+              text-transform uppercase
+
+        .nav-inner-icon-button
+          width 60px
+          height 60px
+          border none
+          background-color transparent
+          color #fbf9fc
+          outline none
+          position absolute
+          top 0
+          left 0
+
+          &.search-button
+            left auto
+            right 0
+            transition all 250ms ease-in-out
+
+            &.hide-search-button
+              right -60px
 
 </style>
