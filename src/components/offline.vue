@@ -35,16 +35,6 @@
       window.addEventListener('online', this.setIsOnline)
       window.addEventListener('offline', this.setIsOnline)
 
-      this.$http('https://httpbin.org/get')
-      .then(res => {
-        // console.log(res)
-        return (res.status >= 200 && res.status < 300 || res.status === 304)
-      })
-      .catch(error => {
-        // console.log(error)
-        return false
-      })
-
     }
   }
 

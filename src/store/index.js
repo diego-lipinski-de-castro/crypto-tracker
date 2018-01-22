@@ -14,9 +14,9 @@ export default new Vuex.Store({
   state: {
     isOnline: true,
     isLoading: false,
-    isSidemenuOpen: false,
+    isSidemenuOpen: true,
     coins: require('./../assets/coins') || [],
-    user: firebase.auth().currentUser
+    user: null
   },
   mutations: {
     [SET_ONLINE] (state, isOnline) {
@@ -34,7 +34,7 @@ export default new Vuex.Store({
   },
   actions: {
 
-    setIsOnline({ commit }) {
+    setIsOnline({commit}) {
       
       const status = window.navigator.onLine
 
@@ -46,17 +46,15 @@ export default new Vuex.Store({
 
     },
 
-    toggleSidemenu({ commit }) {
+    toggleSidemenu({commit}) {
       commit(TOGGLE_SIDEMENU)
     },
 
-    async login({ commit }, provider) {
+    async login({commit}, provider) {
 
       try {
 
-        const user = await firebase.auth().signInWithPopup(provider)
-
-        commit(SET_USER, user)
+        await firebase.auth().signInWithPopup(provider)
 
         return true
 
@@ -66,6 +64,25 @@ export default new Vuex.Store({
         return false
 
       }
+
+    },
+
+    async removeUser({commit}) {
+
+      try {
+
+        await firebase.auth().signOut()
+
+        return true
+
+      } catch(error) {
+        console.log(error)
+        return false
+      }
+
+    },
+
+    async userLinkProviders({commit}, args) {
 
     }
 

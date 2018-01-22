@@ -1,6 +1,6 @@
 <template>
 
-  <div id="app">
+  <div id="app" v-cloak>
 
     <loader/>
 
@@ -23,7 +23,7 @@
 <script>
 
   import { navmenu, sidemenu, loader, offline } from './components/'
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapMutations } from 'vuex'
 
   export default {
     name: 'app',
@@ -35,14 +35,39 @@
     },
     computed: {
       ...mapGetters([
-        'getUser'
+        'getUser',
+        'getIsSidemenuOpen'
+      ])
+    },
+    methods: {
+      ...mapMutations([
+        'SET_USER',
+        'TOGGLE_SIDEMENU'
       ])
     },
     mounted() {
 
-      if(this.getUser === null) {
-        this.$router.push('/sigin')
-      }
+      this.$router.beforeEach((to, from, next) => {
+
+        if(this.getIsSidemenuOpen === true) {
+          this.TOGGLE_SIDEMENU()
+        }        
+
+        if(this.getUser === null && to.name !== 'signin') {
+          next('signin')
+        } else {
+          next()
+        }
+
+      })
+
+      this.$firebase.auth().onAuthStateChanged(user => {
+        this.SET_USER(user)
+
+        if(this.getUser === null) {
+          this.$router.push('signin')
+        }
+      })
 
     }
   }
@@ -52,6 +77,9 @@
 <style lang="stylus">
 
   @import './assets/style/app.styl'
+
+  [v-cloak]
+    display none
 
   .fade-enter-active
   .fade-leave-active

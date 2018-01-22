@@ -29,8 +29,8 @@ export default new Router({
       component: load('pages/coin')
     },
     {
-      path: '/sigin',
-      name: 'sigin',
+      path: '/signin',
+      name: 'signin',
       component: load('pages/signin')
     },
     {

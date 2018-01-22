@@ -9,7 +9,10 @@
           <transition name='switch-icon' mode='out-in'>
 
             <button class='nav-inner-icon-button' key='icon-menu' v-if='isRootPath' @click='toggleSidemenu'>
-              <i class='material-icons'>menu</i>
+              <transition name='switch-icon' mode='out-in'>
+              <i v-if='!getIsSidemenuOpen' key='icon-open' class='material-icons'>menu</i>
+              <i v-else key='icon-close' class='material-icons'>close</i>
+              </transition>
             </button>
 
             <button class='nav-inner-icon-button' key='icon-back' v-else @click='goHome'>
@@ -26,7 +29,7 @@
           </transition>
         </div>
 
-        <button :class='["nav-inner-icon-button search-button", { "hide-search-button": !isRootPath || isSigning }]'>
+        <button :class='["nav-inner-icon-button search-button", { "hide-search-button": !isRootPath || isSigning || getIsSidemenuOpen }]'>
           <i class='material-icons'>search</i>
         </button>
 

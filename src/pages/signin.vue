@@ -1,37 +1,48 @@
 <template>
 
-  <div class="page-wrapper signin-wrapper">
+  <div :class='["page-wrapper signin-wrapper", { "already-signed": getUser !== null }]'>
 
-    <div :class='["error-info", { "show-error": error }]'>
-      <p> Operation wasn't successful. </p>
-    </div>
-    
-    <div class="signin-card">
+    <template v-if='getUser === null'>
 
-      <div class="header">
-        <h2> Sign In </h2>
+      <div :class='["error-info", { "show-error": error }]'>
+        <p> Operation wasn't successful. </p>
+      </div>
+      
+      <div class="signin-card">
+
+        <div class="header">
+          <h2> Sign In </h2>
+        </div>
+
+        <div class="providers-wrapper">
+
+          <button class='provider facebook' @click='signin("facebook")'>
+            <img height='24' width='24' src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/facebook.svg">
+            <span> Facebook </span>
+          </button>
+
+          <button class='provider google' @click='signin("google")'>
+            <img height='24' width='24' src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg">
+            <span> Google </span>
+          </button>
+
+          <button class='provider twitter' @click='signin("twitter")'>
+            <img height='24' width='24' src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/twitter.svg">
+            <span> Twitter </span>
+          </button>
+
+        </div>
+
       </div>
 
-      <div class="providers-wrapper">
+    </template>
 
-        <button class='provider facebook' @click='signin("facebook")'>
-          <img height='24' width='24' src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/facebook.svg">
-          <span> Facebook </span>
-        </button>
+    <template v-else>
 
-        <button class='provider google' @click='signin("google")'>
-          <img height='24' width='24' src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg">
-          <span> Google </span>
-        </button>
+      <h4 class='signed-text'> You're already signed as {{getUser.displayName}} </h4>
+      <router-link class='signed-redirect-button' to='/'> Go home </router-link>
 
-        <button class='provider twitter' @click='signin("twitter")'>
-          <img height='24' width='24' src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/twitter.svg">
-          <span> Twitter </span>
-        </button>
-
-      </div>
-
-    </div>
+    </template>
 
   </div>
 
@@ -39,10 +50,10 @@
 
 <script>
 
-  import { mapActions } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
 
   export default {
-    name: 'sigin',
+    name: 'signin',
     data() {
       return {
         providers: [
@@ -52,6 +63,11 @@
         ],
         error: false
       }
+    },
+    computed: {
+      ...mapGetters([
+        'getUser'
+      ])
     },
     methods: {
       ...mapActions([
@@ -65,8 +81,6 @@
 
         this.login(provider)
         .then(res => {
-          
-          console.log(res)
 
           if(res === true) {
             this.$router.push('/')
@@ -95,6 +109,28 @@
     flex-direction column
     justify-content center
     align-items center
+
+    &.already-signed
+      .signed-text
+        color #282828
+        font-size 1.4rem
+        text-align center
+
+      .signed-redirect-button
+        background-color #a24dd1
+        color #fbf9fc
+        font-size 1rem
+        text-transform uppercase
+        margin 10px
+        line-height 1
+        padding 15px
+        font-weight bold !important
+        width 50%
+        text-align center
+        box-shadow inset -10px 0 0 0 rebeccapurple
+        font-family 'Roboto', sans-serif
+        text-decoration none
+        margin-top 20px
 
     .error-info
       position absolute
