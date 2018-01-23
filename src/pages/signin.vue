@@ -1,8 +1,8 @@
 <template>
 
-  <div :class='["page-wrapper signin-wrapper", { "already-signed": getUser !== null }]'>
+  <div :class='["page-wrapper signin-wrapper", { "already-signed": getUser.data !== null }]'>
 
-    <template v-if='getUser === null'>
+    <template v-if='getUser.data === null'>
 
       <div :class='["error-info", { "show-error": error }]'>
         <p> Operation wasn't successful. </p>
@@ -39,7 +39,7 @@
 
     <template v-else>
 
-      <h4 class='signed-text'> You're already signed as {{getUser.displayName}} </h4>
+      <h4 class='signed-text'> You're already signed as {{getUser.data.displayName}} </h4>
       <router-link class='signed-redirect-button' to='/'> Go home </router-link>
 
     </template>
@@ -56,11 +56,6 @@
     name: 'signin',
     data() {
       return {
-        providers: [
-          { name: 'facebook', provider: new this.$firebase.auth.FacebookAuthProvider()},
-          { name: 'google', provider: new this.$firebase.auth.GoogleAuthProvider()},
-          { name: 'twitter', provider: new this.$firebase.auth.TwitterAuthProvider()}
-        ],
         error: false
       }
     },
@@ -77,7 +72,7 @@
 
         if(this.error) this.error = false
 
-        const provider = this.providers.filter(provider => provider.name === providerName)[0].provider
+        const provider = this.getUser.providers.filter(provider => provider.name === providerName)[0].provider
 
         this.login(provider)
         .then(res => {

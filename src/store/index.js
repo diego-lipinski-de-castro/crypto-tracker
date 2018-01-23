@@ -16,7 +16,14 @@ export default new Vuex.Store({
     isLoading: false,
     isSidemenuOpen: true,
     coins: require('./../assets/coins') || [],
-    user: null
+    user: {
+      data: null,
+      providers: [
+        { name: 'facebook', provider: new firebase.auth.FacebookAuthProvider()},
+        { name: 'google', provider: new firebase.auth.GoogleAuthProvider()},
+        { name: 'twitter', provider: new firebase.auth.TwitterAuthProvider()}
+      ]
+    }
   },
   mutations: {
     [SET_ONLINE] (state, isOnline) {
@@ -29,7 +36,7 @@ export default new Vuex.Store({
       state.isSidemenuOpen = !state.isSidemenuOpen
     },
     [SET_USER] (state, user) {
-      state.user = user
+      state.user.data = user
     }
   },
   actions: {
@@ -82,7 +89,25 @@ export default new Vuex.Store({
 
     },
 
-    async userLinkProviders({commit}, args) {
+    async userLinkProviders({commit}, provider) {
+
+      try {
+
+        const response = await firebase.auth().currentUser.linkWithPopup(provider)
+
+        return {
+          success: true,
+          data: response
+        }
+
+      } catch(error) {
+
+        return {
+          success: false,
+          data: error
+        }
+
+      }
 
     }
 

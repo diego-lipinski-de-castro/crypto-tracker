@@ -53,7 +53,7 @@
           this.TOGGLE_SIDEMENU()
         }        
 
-        if(this.getUser === null && to.name !== 'signin') {
+        if(this.getUser.data === null && to.name !== 'signin') {
           next('signin')
         } else {
           next()
@@ -64,7 +64,7 @@
       this.$firebase.auth().onAuthStateChanged(user => {
         this.SET_USER(user)
 
-        if(this.getUser === null) {
+        if(this.getUser.data === null) {
           this.$router.push('signin')
         }
       })

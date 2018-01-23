@@ -54,7 +54,7 @@
         return this.$route.path === '/'
       },
       isSigning() {
-        return this.$route.path === '/sigin'
+        return this.$route.path === '/signin'
       },
       titleContent() {
         return this.$route.params.coin
@@ -92,15 +92,15 @@
 
   .swipe-title-leave-active
   .swipe-title-enter-active
-    transition transform 300ms linear, opacity 150ms linear
+    transition transform 300ms linear, opacity 120ms linear
 
   .swipe-title-enter
     opacity 1
-    transform translate(30px, 0)
+    transform translateY(-100%)
 
   .swipe-title-leave-to
     opacity 0
-    transform translate(30px, 0)
+    transform translateY(-100%)
 
   .nav-wrapper
     position fixed
@@ -127,6 +127,7 @@
           width calc(100% - 120px)
           margin 0 auto
           display flex
+          justify-content center
           align-items center
 
           .title
