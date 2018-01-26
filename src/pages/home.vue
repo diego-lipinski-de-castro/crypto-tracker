@@ -20,7 +20,7 @@
           <h5 class='c-subs' v-if='coin.name'> {{coin.name}} </h5>
         </div> 
 
-        <router-link class='c-button-link' :to='`coin/${coin.id}`'> Overview </router-link>
+        <router-link v-long-press-down='coinPreview(coin.id)' class='c-button-link' :to='`coin/${coin.id}`'> Overview </router-link>
 
       </li>
 
@@ -38,7 +38,8 @@
     name: 'home',
     data() {
       return {
-        imgSize: '64'
+        imgSize: '64',
+        coinsData: null
       }
     },
     computed: {
@@ -50,10 +51,42 @@
       }
     },
     methods: {
+
       getImagePath(path) {
         const img = require(`./../assets/icons/${path}.svg`)
         return img
+      },
+
+      getSomeData() {
+
+        const coinsArr = this.getCoins.map(coin => {
+          return coin.id.toUpperCase()
+        })
+
+        this.$http('https://api.coinmarketcap.com/v1/ticker/?limit=9999')
+        .then(res => {
+
+          res = res.data
+
+          res = res.filter(coin => coinsArr.includes(coin.symbol))
+
+          this.coinsData = res
+
+        })
+        .catch(error => {
+          console.log(error)
+        })
+
+      },
+
+      coinPreview(coinId) {
+        console.log(coinId)
       }
+
+
+    },
+    mounted() {
+      this.getSomeData()
     }
   }
 

@@ -19,6 +19,19 @@ sync(store, router)
 import axios from 'axios'
 Vue.prototype.$http = axios
 
+import vueTouch from 'vue-touch'
+
+const vueTouchOptions = {
+	directivesToEnable: [
+		'swipe-left',
+		'swipe-right',
+    'tap',
+		'long-press-down'
+	]
+}
+
+Vue.use(vueTouch, vueTouchOptions)
+
 import app from './App'
 
 /* eslint-disable no-new */

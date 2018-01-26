@@ -14,7 +14,7 @@ export default new Vuex.Store({
   state: {
     isOnline: true,
     isLoading: false,
-    isSidemenuOpen: true,
+    isSidemenuOpen: false,
     coins: require('./../assets/coins') || [],
     user: {
       data: null,

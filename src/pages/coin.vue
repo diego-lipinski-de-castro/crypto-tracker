@@ -34,7 +34,10 @@
       return {
         coinId: null,
         coinData: null,
-        params: {}
+        params: {
+          currency: 'usd',
+          selectedTime: []
+        }
       }
     },
     computed: {
@@ -48,6 +51,82 @@
     methods: {
 
       fetchCoinData(coinId) {
+
+        let coinData = {
+          cryptonator: null,
+          cryptocompare: {
+            price: null,
+            pricehistorical: {
+              today: null,
+              aweek: null,
+              amonth: null
+            },
+            histoday: null
+          }
+        }
+
+        // await Promise.all[]
+
+        this.$http(`https://api.cryptonator.com/api/full/${coinId}-${this.params.currency}`)
+        .then(res => {
+          coinData.cryptonator = res.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
+
+        this.$http(`https://min-api.cryptocompare.com/data/price?fsym=${coinId.toUpperCase()}&tsyms=${this.params.currency.toUpperCase()}`)
+        .then(res => {
+          coinData.cryptocompare.price = res.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
+
+        this.$http(`https://min-api.cryptocompare.com/data/pricehistorical?fsym=${coinId.toUpperCase()}&tsyms=${this.params.currency.toUpperCase()}&ts=${new Date().getTime()}`)
+        .then(res => {
+          coinData.cryptocompare.pricehistorical.today = res.data[`${coinId.toUpperCase()}`]
+        })
+        .catch(error => {
+          console.log(error)
+        })
+
+        this.$http(`https://min-api.cryptocompare.com/data/pricehistorical?fsym=${coinId.toUpperCase()}&tsyms=${this.params.currency.toUpperCase()}&ts=${new Date().setDate(new Date().getDate() - 7)}`)
+        .then(res => {
+          coinData.cryptocompare.pricehistorical.aweek = res.data[`${coinId.toUpperCase()}`]
+        })
+        .catch(error => {
+          console.log(error)
+        })
+
+        this.$http(`https://min-api.cryptocompare.com/data/pricehistorical?fsym=${coinId.toUpperCase()}&tsyms=${this.params.currency.toUpperCase()}&ts=${new Date().setDate(new Date().getMonth() - 1)}`)
+        .then(res => {
+          coinData.cryptocompare.pricehistorical.amonth = res.data[`${coinId.toUpperCase()}`]
+        })
+        .catch(error => {
+          console.log(error)
+        })
+
+        // this.$http(`https://www.cryptocompare.com/api/data/coinsnapshot/?fsym=${coinId.toUpperCase()}&tsym=${this.params.currency.toUpperCase()}`)
+        // .then(res => {
+        //   coinData.cryptocompare.pricehistorical.amonth = res.data[`${coinId.toUpperCase()}`]
+        // })
+        // .catch(error => {
+        //   console.log(error)
+        // })
+
+        this.$http(`https://min-api.cryptocompare.com/data/histoday?fsym=${coinId.toUpperCase()}&tsym=${this.params.currency.toUpperCase()}&limit=30&aggregate=3&e=CCCAGG`)
+        .then(res => {
+          coinData.cryptocompare.histoday = res.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
+
+        
+
+        window.data = coinData
+
       },
       
       pushBack() {
