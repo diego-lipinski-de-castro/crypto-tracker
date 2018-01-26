@@ -20,7 +20,7 @@
           <h5 class='c-subs' v-if='coin.name'> {{coin.name}} </h5>
         </div> 
 
-        <router-link v-long-press-down='coinPreview(coin.id)' class='c-button-link' :to='`coin/${coin.id}`'> Overview </router-link>
+        <router-link v-touch:swipe.right='coinPreview(coin.id)' class='c-button-link' :to='`coin/${coin.id}`'> Overview </router-link>
 
       </li>
 
@@ -153,11 +153,13 @@
         font-weight 900
         border-bottom-left-radius 10px
         border-bottom-right-radius 10px
+        outline none
 
         &:active
         &:focus
         &:visited
         &:hover
+        &:selection
           color #fbf9fc
 
 </style>

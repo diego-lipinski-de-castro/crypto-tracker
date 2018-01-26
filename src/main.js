@@ -19,18 +19,14 @@ sync(store, router)
 import axios from 'axios'
 Vue.prototype.$http = axios
 
-import vueTouch from 'vue-touch'
-
-const vueTouchOptions = {
-	directivesToEnable: [
-		'swipe-left',
-		'swipe-right',
-    'tap',
-		'long-press-down'
-	]
-}
-
-Vue.use(vueTouch, vueTouchOptions)
+import Vue2TouchEvents from 'vue2-touch-events'
+Vue.use(Vue2TouchEvents, {
+    disableClick: false,
+    touchClass: 'touching',
+    tapTolerance: 10,
+    swipeTolerance: 30,
+    longTapTimeInterval: 400
+})
 
 import app from './App'
 
