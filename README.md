@@ -1,6 +1,10 @@
 # crypto-tracker
 simple vuejs pwa to show crypto coins info
 
+this is another old project that sadly isnt working completely due to old firebase and crypto apis
+
+![home screen](./home.png)
+
 > crypto-tracker-pwa-client
 
 ## Build Setup
